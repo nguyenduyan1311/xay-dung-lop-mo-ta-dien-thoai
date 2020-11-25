@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    class Mobile {
+        constructor() {
+            this.energy = 0;
+            this.status = false;
+            this.messageWriting = '';
+            this.messageReceived = [];
+            this.messageSent = [];
+        }
+        checkStatus() {
+            return this.status;
+        }
+        switchStatus(value) {
+            this.status = value;
+        }
+        chargeBattery() {
+            this.energy = 100;
+            alert("Pin đầy");
+        }
+        createMessage(str) {
+            if (this.checkStatus() == true) {
+                this.subtractEnergy();
+                this.messageWriting = str;
+            }
+        }
+        receiveMessage(str) {
+            if (this.checkStatus() == true) {
+                this.subtractEnergy();
+                this.messageReceived.push(str);
+            }
+        }
+        sendMessage(str, obj) {
+            if (this.checkStatus() == true) {
+                this.subtractEnergy();
+                this.messageSent.push(str);
+                return obj.receiveMessage(str);
+            }
+        }
+        showReceivedMessage() {
+            if (this.checkStatus() == true) {
+                this.subtractEnergy();
+                let messages = '';
+                for (let i in this.messageReceived) {
+                    messages += "Message " + i + " : " + this.messageReceived[i] + "\n";
+                }
+                alert(messages);
+            }
+        }
+        showSendMessage() {
+            if (this.checkStatus()) {
+                this.subtractEnergy();
+                let messages = '';
+                for (let i in this.messageSent) {
+                    messages += "Message " + i + " : " + this.messageSent[i] + "\n";
+                }
+                alert(messages);
+            }
+        }
+        subtractEnergy() {
+            if (this.energy == 0) {
+                alert("Hết pin !!!")
+            } else {
+                this.energy--;
+            }
+        }
+    }
+    let nokia = new Mobile();
+    let iphone = new Mobile();
+    nokia.switchStatus(true);
+    iphone.switchStatus(true);
+
+    nokia.chargeBattery();
+    iphone.chargeBattery();
+
+    nokia.createMessage("");
+    nokia.sendMessage(nokia.messageWriting, iphone);
+    iphone.showReceivedMessage();
+</script>
+</body>
+</html>
